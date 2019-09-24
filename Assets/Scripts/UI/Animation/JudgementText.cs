@@ -8,26 +8,37 @@ namespace UI.Animation
         [Serializable]
         public enum Judgement
         {
-            Excelent = 1,
-            Great = 2,
-            Good = 3,
-            Bad = 4,
-            Miss = 5,
+            Excelent = 0,
+            Great = 1,
+            Good = 2,
+            Bad = 3,
+            Miss = 4,
         }
         
         [SerializeField] private Animator _animator;
         [SerializeField] private string _animationName;
+        [SerializeField] private Color[] _colorPerJudgement;
         private int _animationNameCache = int.MinValue;
 
         public void Judge(Judgement judge)
         {
             Text = judge.ToString();
+            SetColor(_colorPerJudgement[(int)judge]);
             _onTextChanged.Invoke();
         }
         public void Judge(int judge)
         {
             Text = ((Judgement)judge).ToString();
+            SetColor(_colorPerJudgement[judge]);
             _onTextChanged.Invoke();
+        }
+
+        private void SetColor(Color color)
+        {
+            if (textMesh != null)
+            {
+                textMesh.color = color;
+            }
         }
         
         public void PlayAnimation()

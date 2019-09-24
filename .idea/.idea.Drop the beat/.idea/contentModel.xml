@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
     <e p="C:\Users\HulkSTD\.Rider2019.2\system\extResources" t="IncludeRecursive" />
@@ -14,7 +14,12 @@
           <e p="ForceCameraRatio.cs" t="Include" />
         </e>
         <e p="Scripts" t="Include">
+          <e p="GameManager" t="Include">
+            <e p="Parser.cs" t="Include" />
+            <e p="StaticClassCoroutineManager.cs" t="Include" />
+          </e>
           <e p="Singleton.cs" t="Include" />
+          <e p="TestCode.cs" t="Include" />
           <e p="UI" t="Include">
             <e p="Animation" t="Include">
               <e p="ComboText.cs" t="Include" />

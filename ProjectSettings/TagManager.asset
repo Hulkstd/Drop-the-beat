@@ -44,6 +44,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ComboGage
+    uniqueID: 3443845419
+    locked: 0
+  - name: Background
+    uniqueID: 1520436995
+    locked: 0
   - name: Note
     uniqueID: 1352620871
     locked: 0
