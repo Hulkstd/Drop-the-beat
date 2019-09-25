@@ -35,9 +35,9 @@ namespace UI.Animation
 
         private void SetColor(Color color)
         {
-            if (textMesh != null)
+            if (TextMesh != null)
             {
-                textMesh.color = color;
+                TextMesh.color = color;
             }
         }
         

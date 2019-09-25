@@ -15,11 +15,18 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="GameManager" t="Include">
+            <e p="BMSCapacity.cs" t="Include" />
+            <e p="CameraMove.cs" t="Include" />
+            <e p="GCManager.cs" t="Include" />
             <e p="Parser.cs" t="Include" />
+            <e p="Singleton.cs" t="Include" />
             <e p="StaticClassCoroutineManager.cs" t="Include" />
+            <e p="Timer.cs" t="Include" />
           </e>
-          <e p="Singleton.cs" t="Include" />
-          <e p="TestCode.cs" t="Include" />
+          <e p="Node" t="Include">
+            <e p="NodeCreator.cs" t="Include" />
+            <e p="NoteInfo.cs" t="Include" />
+          </e>
           <e p="UI" t="Include">
             <e p="Animation" t="Include">
               <e p="ComboText.cs" t="Include" />

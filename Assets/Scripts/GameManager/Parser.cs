@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace GameManager
 {
@@ -131,8 +132,8 @@ namespace GameManager
                     if (!SubString(line, "#")) continue;
                     //#00101 aabbccdd length 15 9
                     var measure = int.Parse(line.Substring(1, 3));
-                    var channel = (Bms.DataSection.EventChannel)int.Parse(line.Substring(4, 2));
-                    bms.Data.PushData(measure, channel, line.Substring(7, line.Length - 7));
+                    var channel = int.Parse(line.Substring(4, 2));
+                    bms.AddNoteOnMeasure(measure, channel, line.Substring(7, line.Length - 7));
                 }
             }
 
@@ -213,6 +214,8 @@ namespace GameManager
                 P1SideKey5 = 15,
                 P1SideScratch = 16,
                 P1SideFreeZone = 17,
+                P1SideKey6 = 18,
+                P1SideKey7 = 19,
                 P2SideKey1 = 21,
                 P2SideKey2 = 22,
                 P2SideKey3 = 23,
@@ -263,8 +266,8 @@ namespace GameManager
                     case EventChannel.P1SideKey3:
                     case EventChannel.P1SideKey4:
                     case EventChannel.P1SideKey5:
-                    case EventChannel.P1SideScratch:
-                    case EventChannel.P1SideFreeZone:
+                    case EventChannel.P1SideKey6:
+                    case EventChannel.P1SideKey7:
                     {
                         if (!_noteSection.ContainsKey(measure))
                         {
@@ -280,6 +283,9 @@ namespace GameManager
                         break;
                 }
             }
+
+            public Dictionary<int, Dictionary<EventChannel, List<string>>> GetNoteSection() => _noteSection;
+            public Dictionary<int, Dictionary<EventChannel, List<string>>> GetCommandSection() => _commandSection;
         }
 
         public readonly Header Head;
@@ -332,16 +338,17 @@ namespace GameManager
 
         public IEnumerator AddWavFIle(string path,string strNum)
         {
-#pragma warning disable 618
-            var www = new WWW(path);
-#pragma warning restore 618
-
-            while (www.isDone)
-                yield return null;
-
-            var clip = www.GetAudioClip();
-           
-            Head.WavFiles.Add(strNum, clip);
+            var unityRequest = UnityWebRequest.Get(path);
+//#pragma warning disable 618
+//            var www = new WWW(path);
+//#pragma warning restore 618
+//
+//            while (www.isDone)
+//                yield return null;
+//
+//            var clip = www.GetAudioClip();
+//           
+//            Head.WavFiles.Add(strNum, clip);
         }
 
         public void AddBmpFile(string input, string strNum) => Head.BmpFiles.Add(strNum, input);

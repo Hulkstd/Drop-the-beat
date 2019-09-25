@@ -1,4 +1,5 @@
 ﻿using System;
+using GameManager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,9 +12,9 @@ namespace UI.Animation
     {
         [FormerlySerializedAs("detectableTextClass")] [Tooltip("Only Support TextMesh and Text")] [SerializeField]
         protected MaskableGraphic _detectableTextClass;
-        protected TextMeshProUGUI textMesh;
-        protected Text text;
-        protected bool isDetectResultIsMesh = false;
+        protected TextMeshProUGUI TextMesh;
+        private Text _text;
+        private bool _isDetectResultIsMesh = false;
         
         [FormerlySerializedAs("onTextChanged")]  [SerializeField]
         protected UnityEvent _onTextChanged;
@@ -24,32 +25,32 @@ namespace UI.Animation
             set => _onTextChanged = value;
         }
         
-        public string Text
+        protected string Text
         {
-            get => isDetectResultIsMesh ? textMesh.text : text.text;
+            get => _isDetectResultIsMesh ? TextMesh.text : _text.text;
             set
             {
-                if (textMesh == null && text == null)
+                if (TextMesh == null && _text == null)
                 {
                     switch (_detectableTextClass)
                     {
                         case Text t:
-                            text = t;
+                            _text = t;
                             break;
                         case TextMeshProUGUI m:
-                            textMesh = m;
-                            isDetectResultIsMesh = true;
+                            TextMesh = m;
+                            _isDetectResultIsMesh = true;
                             break;
                     }
                 }
 
-                if (isDetectResultIsMesh)
+                if (_isDetectResultIsMesh)
                 {
-                    textMesh.text = value;
+                    TextMesh.text = value;
                 }
                 else
                 {
-                    text.text = value;
+                    _text.text = value;
                 }
                 _onTextChanged.Invoke();
             }
