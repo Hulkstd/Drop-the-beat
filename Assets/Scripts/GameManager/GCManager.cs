@@ -14,7 +14,7 @@ namespace GameManager
             Waitfor = new Dictionary<float, object>();
         }
 
-        public object PushDataOnWaitfor(float a,object data)
+        public object PushDataOnWaitfor(float a, object data)
         {
             Waitfor.Add(a, data);
 

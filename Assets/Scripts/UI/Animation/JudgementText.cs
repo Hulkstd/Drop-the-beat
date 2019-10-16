@@ -12,7 +12,8 @@ namespace UI.Animation
             Great = 1,
             Good = 2,
             Bad = 3,
-            Miss = 4,
+            Poor = 4,
+            Miss = 5,
         }
         
         [SerializeField] private Animator _animator;

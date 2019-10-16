@@ -15,11 +15,15 @@
         </e>
         <e p="Scripts" t="Include">
           <e p="GameManager" t="Include">
+            <e p="BGMPlayer.cs" t="Include" />
             <e p="BMSCapacity.cs" t="Include" />
             <e p="CameraMove.cs" t="Include" />
             <e p="GCManager.cs" t="Include" />
+            <e p="JudgementManager.cs" t="Include" />
+            <e p="KeyboardManager.cs" t="Include" />
             <e p="Parser.cs" t="Include" />
             <e p="Singleton.cs" t="Include" />
+            <e p="SoundManager.cs" t="Include" />
             <e p="StaticClassCoroutineManager.cs" t="Include" />
             <e p="Timer.cs" t="Include" />
           </e>
@@ -33,6 +37,9 @@
               <e p="JudgementText.cs" t="Include" />
               <e p="TextChangedEvent.cs" t="Include" />
             </e>
+          </e>
+          <e p="Utility" t="Include">
+            <e p="Utility.cs" t="Include" />
           </e>
         </e>
         <e p="TextMesh Pro" t="Include">

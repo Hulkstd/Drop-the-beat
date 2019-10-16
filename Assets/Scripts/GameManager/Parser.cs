@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UIElements;
 
 namespace GameManager
 {
@@ -48,7 +50,7 @@ namespace GameManager
                         var length = line.Length - 8;
                         bms.SetArtist(line.Substring(8, length));
                     }
-                    else if (SubString(line, "#BPM"))
+                    else if (SubString(line, "#BPM "))
                     {    
                         var length = line.Length - 5;
                         bms.SetBpm(int.Parse(line.Substring(5, length)));
@@ -82,11 +84,12 @@ namespace GameManager
                     {
                         var strNum = line.Substring(4, 2);
 
-                        var length = line.Length - 6;
-                        var fileName = line.Substring(6, length);
+                        var length = line.Length - 7 - 4; // 확장자 제거를 위하여 -4
+                        var fileName = line.Substring(7, length);
+                        bms.Head.WavFileCount++;
 
                         StaticClassCoroutineManager.Instance.Coroutine(
-                            bms.AddWavFIle($"{fileParent}/{fileName}", strNum));
+                            bms.AddWavFIle($@"{fileParent}\{fileName}", strNum));
                     }
                     else if (SubString(line,"#BMP"))
                     {
@@ -100,7 +103,7 @@ namespace GameManager
                     {
                         var strNum = line.Substring(5, 2);
 
-                        var length = line.Length - 7;
+                        var length = line.Length - 8;
                         var strData = line.Substring(8, length);
                         bms.AddStopCommand(strNum, strData);
                     }
@@ -108,7 +111,7 @@ namespace GameManager
                     {
                         var strNum = line.Substring(4, 2);
 
-                        var length = line.Length - 6;
+                        var length = line.Length - 7;
                         var strData = line.Substring(7, length);
                         bms.AddBpmCommand(strNum, strData);
                     }
@@ -168,11 +171,12 @@ namespace GameManager
             public string Title;
             public string Artist;
             public string Genre;
-            public int Bpm;
+            public float Bpm;
             public int PlayLevel;
             public int Rank;
             public int Total;
             public int VolumeWav;
+            public int WavFileCount;
             public Sprite StageFile;
             public readonly LongNoteInfo LongNote;
 
@@ -223,20 +227,44 @@ namespace GameManager
                 P2SideKey5 = 25,
                 P2SideScratch = 26,
                 P2SideFreeZone = 27,
+                P2SideKey6 = 28,
+                P2SideKey7 = 29,
                 P1InvisibleObject = 31, // until 36
                 P2InvisibleObject = 41, // until 46
+                P1SideLongNote1 = 51,
+                P1SideLongNote2 = 52,
+                P1SideLongNote3 = 53,
+                P1SideLongNote4 = 54,
+                P1SideLongNote5 = 55,
+                P1SideLongNoteSc = 56,
+                P1SideLongNoteFree = 57,
+                P1SideLongNote6 = 58,
+                P1SideLongNote7 = 59,
+                P2SideLongNote1 = 61,
+                P2SideLongNote2 = 62,
+                P2SideLongNote3 = 63,
+                P2SideLongNote4 = 64,
+                P2SideLongNote5 = 65,
+                P2SideLongNoteSc = 66,
+                P2SideLongNoteFree = 67,
+                P2SideLongNote6 = 68,
+                P2SideLongNote7 = 69,
             }
             private readonly Dictionary<int, Dictionary<EventChannel, List<string>>> _commandSection;
             private readonly Dictionary<int, Dictionary<EventChannel, List<string>>> _noteSection;
+            private readonly Dictionary<int, int> _noteSectionMaxLength;
+            public int TotalBar;
 
             public DataSection()
             {
                 _commandSection = new Dictionary<int, Dictionary<EventChannel, List<string>>>();
                 _noteSection = new Dictionary<int, Dictionary<EventChannel, List<string>>>();
+                _noteSectionMaxLength = new Dictionary<int, int>();
             }
 
             public void PushData(int measure, EventChannel channel, string seq)
             {
+                if (measure > TotalBar) TotalBar = measure;
                 switch (channel)
                 {
                     case EventChannel.BackgroundMusic:
@@ -248,18 +276,23 @@ namespace GameManager
                     case EventChannel.BgaLayer:
                     case EventChannel.ExpendBpm:
                     case EventChannel.SequenceStop:
-                    {
-                        if (!_commandSection.ContainsKey(measure))
+                    case EventChannel.P1SideScratch:
+                    case EventChannel.P1SideLongNoteSc:
                         {
-                            _commandSection.Add(measure, new Dictionary<EventChannel, List<string>>());
-                        }
+                            if (!_commandSection.ContainsKey(measure))
+                            {
+                                _commandSection.Add(measure, new Dictionary<EventChannel, List<string>>());
+                            }
 
-                        if (!_commandSection[measure].ContainsKey(channel))
-                        {
-                            _commandSection[measure].Add(channel, new List<string>());
-                        }
-                        _commandSection[measure][channel].Add(seq);
-                    } 
+                            if (channel == EventChannel.P1SideScratch || channel == EventChannel.P1SideLongNoteSc)
+                                channel = EventChannel.BackgroundMusic;
+
+                            if (!_commandSection[measure].ContainsKey(channel))
+                            {
+                                _commandSection[measure].Add(channel, new List<string>());
+                            }
+                            _commandSection[measure][channel].Add(seq);
+                        } 
                         break;
                     case EventChannel.P1SideKey1:
                     case EventChannel.P1SideKey2:
@@ -268,29 +301,51 @@ namespace GameManager
                     case EventChannel.P1SideKey5:
                     case EventChannel.P1SideKey6:
                     case EventChannel.P1SideKey7:
-                    {
-                        if (!_noteSection.ContainsKey(measure))
+                    case EventChannel.P1SideLongNote1:
+                    case EventChannel.P1SideLongNote2:
+                    case EventChannel.P1SideLongNote3:
+                    case EventChannel.P1SideLongNote4:
+                    case EventChannel.P1SideLongNote5:
+                    case EventChannel.P1SideLongNote6:
+                    case EventChannel.P1SideLongNote7:
                         {
-                            _noteSection.Add(measure, new Dictionary<EventChannel, List<string>>());
-                        }
+                            if (!_noteSection.ContainsKey(measure))
+                            {
+                                _noteSection.Add(measure, new Dictionary<EventChannel, List<string>>());
+                            }
 
-                        if (!_noteSection[measure].ContainsKey(channel))
-                        {
-                            _noteSection[measure].Add(channel, new List<string>());
+                            if (!_noteSection[measure].ContainsKey(channel))
+                            {
+                                _noteSection[measure].Add(channel, new List<string>());
+                            }
+
+                            if(!_noteSectionMaxLength.ContainsKey(measure))
+                            {
+                                    _noteSectionMaxLength.Add(measure, seq.Length);
+                            }
+
+                            _noteSectionMaxLength[measure] = _noteSectionMaxLength[measure] < seq.Length ? seq.Length : _noteSectionMaxLength[measure];
+                            _noteSection[measure][channel].Add(seq);
                         }
-                        _noteSection[measure][channel].Add(seq);
-                    }
                         break;
                 }
             }
 
             public Dictionary<int, Dictionary<EventChannel, List<string>>> GetNoteSection() => _noteSection;
             public Dictionary<int, Dictionary<EventChannel, List<string>>> GetCommandSection() => _commandSection;
+            public Dictionary<int, int> GetNoteSectionMaxLength() => _noteSectionMaxLength;
         }
 
         public readonly Header Head;
         public readonly DataSection Data;
 
+        private static AudioType[] _supportTypes =
+        {
+            AudioType.OGGVORBIS,
+            AudioType.WAV,
+            AudioType.MPEG,
+        };
+        
         public Bms()
         {
             Head = new Header();
@@ -338,17 +393,39 @@ namespace GameManager
 
         public IEnumerator AddWavFIle(string path,string strNum)
         {
-            var unityRequest = UnityWebRequest.Get(path);
-//#pragma warning disable 618
-//            var www = new WWW(path);
-//#pragma warning restore 618
-//
-//            while (www.isDone)
-//                yield return null;
-//
-//            var clip = www.GetAudioClip();
-//           
-//            Head.WavFiles.Add(strNum, clip);
+            var type = AudioType.OGGVORBIS;
+
+            if (File.Exists(path + ".wav"))
+            {
+                path += ".wav";
+                type = AudioType.WAV;
+            }
+            else if(File.Exists(path + ".ogg"))
+            {
+                path += ".ogg";
+                type = AudioType.OGGVORBIS;
+            }
+            else if(File.Exists(path + ".mp3"))
+            {
+                path += ".mp3";
+                type = AudioType.OGGVORBIS;
+            }
+
+            using (var www = UnityWebRequestMultimedia.GetAudioClip(path, type))
+            {
+                yield return www.SendWebRequest();
+                
+                if (www.downloadHandler.data.Length == 0)
+                {
+                    Debug.Log($"{strNum} WAV doesnt find in files");
+                }
+                else
+                {
+                    var audio = DownloadHandlerAudioClip.GetContent(www);
+                    audio.LoadAudioData();
+                    Head.WavFiles.Add(strNum, audio);
+                }
+            }
         }
 
         public void AddBmpFile(string input, string strNum) => Head.BmpFiles.Add(strNum, input);
