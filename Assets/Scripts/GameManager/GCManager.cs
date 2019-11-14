@@ -7,14 +7,14 @@ namespace GameManager
 {
     public class GCManager : Singleton<GCManager>
     {
-        [NonSerialized] public Dictionary<float, object> Waitfor;
+        [NonSerialized] public Dictionary<string, object> Waitfor;
 
         private void Start()
         {
-            Waitfor = new Dictionary<float, object>();
+            Waitfor = new Dictionary<string, object>();
         }
 
-        public object PushDataOnWaitfor(float a, object data)
+        public object PushDataOnWaitfor(string a, object data)
         {
             Waitfor.Add(a, data);
 

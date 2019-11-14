@@ -23,6 +23,9 @@ namespace GameManager
             var qData = File.ReadAllLines(filePath);
             var headerField = true;
             var fileParent = Directory.GetParent(filePath).FullName;
+            var randomNum = -1;
+            var startIf = false;
+            var inIf = false;
         
             foreach (var line in qData)
             {
@@ -89,7 +92,7 @@ namespace GameManager
                         bms.Head.WavFileCount++;
 
                         StaticClassCoroutineManager.Instance.Coroutine(
-                            bms.AddWavFIle($@"{fileParent}\{fileName}", strNum));
+                            bms.AddWavFIle($@"{fileParent}\",$"{fileName}", strNum));
                     }
                     else if (SubString(line,"#BMP"))
                     {
@@ -124,6 +127,35 @@ namespace GameManager
                         bms.SetLongNoteType("LNOBJ");
                         bms.AddLongNote(line.Substring(7,2));
                     }
+                    else if (SubString(line, "#random"))
+                    {
+                        var num = int.Parse(line.Substring(8, 1));
+
+                        randomNum = Random.Range(1, num);
+                    }
+                    else if (SubString(line, "#if"))
+                    {
+                        var num = int.Parse(line.Substring(4, line.Length - 4));
+                        startIf = true;
+
+                        inIf = num == randomNum;
+                    }
+                    else if (startIf && !inIf && SubString(line, "#else"))
+                    {
+                        inIf = true;
+                    }
+                    else if (SubString(line, "#endif"))
+                    {
+                        inIf = startIf = false;
+                    }
+                    else if (inIf)
+                    {
+                        if (!SubString(line, "#")) continue;
+                        //#00101 aabbccdd length 15 9
+                        var measure = int.Parse(line.Substring(1, 3));
+                        var channel = int.Parse(line.Substring(4, 2));
+                        bms.AddNoteOnMeasure(measure, channel, line.Substring(7, line.Length - 7));
+                    }
 
                     if (line == "*---------------------- MAIN DATA FIELD")
                     {
@@ -157,7 +189,7 @@ namespace GameManager
         {
             public class LongNoteInfo
             {
-                private string _type;
+                private string _type = "1";
                 private readonly List<string> _longNotes = new List<string>();
 
                 public void SetType(string input) => _type = input;
@@ -182,7 +214,7 @@ namespace GameManager
 
             public Dictionary<string, AudioClip> WavFiles { get; }
             public Dictionary<string, string> BmpFiles { get; }
-            public Dictionary<string, int> StopCommand { get; }
+            public Dictionary<string, float> StopCommand { get; }
             public Dictionary<string, float> BpmCommand { get; }
 
             public Header()
@@ -193,7 +225,7 @@ namespace GameManager
                 LongNote = new LongNoteInfo();
                 WavFiles = new Dictionary<string, AudioClip>();
                 BmpFiles = new Dictionary<string, string>();
-                StopCommand = new Dictionary<string, int>();
+                StopCommand = new Dictionary<string, float>();
                 BpmCommand = new Dictionary<string, float>();
             }
         }
@@ -250,15 +282,15 @@ namespace GameManager
                 P2SideLongNote6 = 68,
                 P2SideLongNote7 = 69,
             }
-            private readonly Dictionary<int, Dictionary<EventChannel, List<string>>> _commandSection;
-            private readonly Dictionary<int, Dictionary<EventChannel, List<string>>> _noteSection;
+            private readonly SortedDictionary<int, Dictionary<EventChannel, List<string>>> _commandSection;
+            private readonly SortedDictionary<int, Dictionary<EventChannel, List<string>>> _noteSection;
             private readonly Dictionary<int, int> _noteSectionMaxLength;
             public int TotalBar;
 
             public DataSection()
             {
-                _commandSection = new Dictionary<int, Dictionary<EventChannel, List<string>>>();
-                _noteSection = new Dictionary<int, Dictionary<EventChannel, List<string>>>();
+                _commandSection = new SortedDictionary<int, Dictionary<EventChannel, List<string>>>();
+                _noteSection = new SortedDictionary<int, Dictionary<EventChannel, List<string>>>();
                 _noteSectionMaxLength = new Dictionary<int, int>();
             }
 
@@ -291,7 +323,8 @@ namespace GameManager
                             {
                                 _commandSection[measure].Add(channel, new List<string>());
                             }
-                            _commandSection[measure][channel].Add(seq);
+                            if(seq != "00")
+                                _commandSection[measure][channel].Add(seq);
                         } 
                         break;
                     case EventChannel.P1SideKey1:
@@ -331,8 +364,8 @@ namespace GameManager
                 }
             }
 
-            public Dictionary<int, Dictionary<EventChannel, List<string>>> GetNoteSection() => _noteSection;
-            public Dictionary<int, Dictionary<EventChannel, List<string>>> GetCommandSection() => _commandSection;
+            public SortedDictionary<int, Dictionary<EventChannel, List<string>>> GetNoteSection() => _noteSection;
+            public SortedDictionary<int, Dictionary<EventChannel, List<string>>> GetCommandSection() => _commandSection;
             public Dictionary<int, int> GetNoteSectionMaxLength() => _noteSectionMaxLength;
         }
 
@@ -360,7 +393,7 @@ namespace GameManager
     
         public void SetPlayer(int input) => Head.Player = input;
 
-        public void SetBpm(int input) => Head.Bpm = input;
+        public void SetBpm(float input) => Head.Bpm = input;
 
         public void SetRank(int input) => Head.Rank = input;
 
@@ -391,33 +424,36 @@ namespace GameManager
         public void AddNoteOnMeasure(int measure, int channel, string input) =>
             Data.PushData(measure, (DataSection.EventChannel) channel, input);
 
-        public IEnumerator AddWavFIle(string path,string strNum)
+        public IEnumerator AddWavFIle(string path, string fileName,string strNum)
         {
             var type = AudioType.OGGVORBIS;
 
-            if (File.Exists(path + ".wav"))
+            if (File.Exists(path + fileName + ".wav"))
             {
-                path += ".wav";
+                fileName += ".wav";
                 type = AudioType.WAV;
             }
-            else if(File.Exists(path + ".ogg"))
+            else if(File.Exists(path + fileName + ".ogg"))
             {
-                path += ".ogg";
+                fileName += ".ogg";
                 type = AudioType.OGGVORBIS;
             }
-            else if(File.Exists(path + ".mp3"))
+            else if(File.Exists(path + fileName + ".mp3"))
             {
-                path += ".mp3";
+                fileName += ".mp3";
                 type = AudioType.OGGVORBIS;
             }
 
-            using (var www = UnityWebRequestMultimedia.GetAudioClip(path, type))
+            using (var www = UnityWebRequestMultimedia.GetAudioClip("file://"+path + UnityWebRequest.EscapeURL(fileName), type))
             {
                 yield return www.SendWebRequest();
                 
                 if (www.downloadHandler.data.Length == 0)
                 {
-                    Debug.Log($"{strNum} WAV doesnt find in files");
+//                    Debug.Log(www.downloadHandler.data);
+                    Debug.Log($"{path}{UnityWebRequest.EscapeURL(fileName)}, {strNum} {type.ToString()} doesnt find in files");
+                    Debug.Log($"{www.error}");
+                    Head.WavFiles.Add(strNum, null);
                 }
                 else
                 {
@@ -431,7 +467,9 @@ namespace GameManager
         public void AddBmpFile(string input, string strNum) => Head.BmpFiles.Add(strNum, input);
 
         public void AddStopCommand(string strNum, string strData) => Head.StopCommand.Add(strNum, int.Parse(strData));
-        
+
         public void AddBpmCommand(string strNum, string strData) => Head.BpmCommand.Add(strNum, float.Parse(strData));
+
+        private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
     }
 }

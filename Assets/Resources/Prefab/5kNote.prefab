@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7499317192124887048}
   - component: {fileID: 3877559567392374072}
   m_Layer: 0
-  m_Name: Note
+  m_Name: 5kNote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 92232573520607595}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.475, y: -0.73, z: 0}
-  m_LocalScale: {x: 0.19999999, y: 0.075, z: 1}
+  m_LocalScale: {x: 0.19999999, y: 0.015, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 1352620871
   m_SortingLayer: 3
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 2ce08a3b397e0034b8addef07c35cf47, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 793583f25da2fb04f9f5ce7eee1523c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,3 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9027f323b66f8c42844d6c744ca53a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _audio: {fileID: 0}
+  _longNote: 0
+  _timing: 0

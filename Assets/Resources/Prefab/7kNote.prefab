@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 6030295139011764390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5.632, y: -2.6, z: 0}
-  m_LocalScale: {x: 0.1472, y: 0.075, z: 1}
+  m_LocalScale: {x: 0.1472, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 1352620871
   m_SortingLayer: 3
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 2ce08a3b397e0034b8addef07c35cf47, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 793583f25da2fb04f9f5ce7eee1523c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,3 +94,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audio: {fileID: 0}
+  _longNote: 0
+  _timing: 0

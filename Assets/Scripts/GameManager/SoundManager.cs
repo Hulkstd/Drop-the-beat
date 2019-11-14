@@ -26,13 +26,25 @@ namespace GameManager
 
         private IEnumerator PlaySound(float time, AudioClip audioClip)
         {
-            yield return _gcManager.Waitfor.ContainsKey(time)
-                ? (WaitForSeconds)_gcManager.Waitfor[time]
-                : (WaitForSeconds)_gcManager.PushDataOnWaitfor(time, new WaitForSeconds(time));
+            yield return _gcManager.Waitfor.ContainsKey(time + "wfs")
+                ? (WaitForSeconds) _gcManager.Waitfor[time + "wfs"]
+                : (WaitForSeconds) _gcManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
 
             var obj = _soundSources.PopObject();
             obj.PlayOneShot(audioClip);
-            StartCoroutine(Utility.Utility.SetActive(audioClip.length + 0.5f, obj.gameObject));
+
+            try
+            {
+                StartCoroutine(audioClip == null
+                    ? Utility.Utility.SetActive(0.5f, obj.gameObject)
+                    : Utility.Utility.SetActive(audioClip.length + 0.5f, obj.gameObject));
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e.Message);
+                Debug.Log(obj.gameObject == null);
+                Debug.Log(audioClip.length);
+            }
         }
     }
 }

@@ -14,6 +14,11 @@ namespace UI.Animation
             Text = (int.Parse(Text) + Value).ToString();
         }
 
+        public void TimeScale(float n)
+        {
+            Time.timeScale = n;
+        }
+
         public void ResetCombo()
         {
             var tmp = _onTextChanged;
