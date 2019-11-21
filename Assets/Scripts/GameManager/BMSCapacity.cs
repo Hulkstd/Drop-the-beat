@@ -24,6 +24,7 @@ namespace GameManager
         [FormerlySerializedAs("currentBar")] public int _currentBar = 0;
         [FormerlySerializedAs("currentBeat")] public float _currentBeatWeight = 1;
         [FormerlySerializedAs("path")] public string _path;
+        [FormerlySerializedAs("BarLine")] public GameObject _barLine;
 
         private void Start()
         {
@@ -188,6 +189,7 @@ namespace GameManager
                                     lastNote[index].IsLongNote = true;
                                     lastNote[index].ToBar = bar.Key;
                                     lastNote[index].ToBeat = (i / count) * 1000;
+                                    continue;
                                 }
                             }
 
@@ -247,7 +249,7 @@ namespace GameManager
                                 else
                                 {
                                     lastNote[index].ToBar = bar.Key;
-                                    lastNote[index].ToBeat = (i / count) * 1000;
+                                    lastNote[index].ToBeat = ((double)i / count) * 4.0;
                                     lastNote[index] = null;
                                 }
                             }
@@ -308,6 +310,7 @@ namespace GameManager
                     }
                 }
             }
+            Notes.Sort();
             
             yield return null;
         }
@@ -350,7 +353,7 @@ namespace GameManager
 
             for (var i = 1; i < BPMs.Length; i++)
             {
-                BPMs[i].Timing = BPMs[i].Timing + (BPMs[i].Beat - BPMs[i - 1].Beat) / (BPMs[i - 1].Bpm / 60);
+                BPMs[i].Timing = BPMs[i - 1].Timing + (BPMs[i].Beat - BPMs[i - 1].Beat) / (BPMs[i - 1].Bpm / 60);
             }
 
             foreach (var stop in Stops)
@@ -364,6 +367,10 @@ namespace GameManager
             {
                 note.Beat = GetTotalBeatUntil(note.Bar) + note.Beat * GetBeat(note.Bar);
                 note.Timing = CalculateTiming(note);
+
+                if (!note.IsLongNote) continue;
+                note.ToBeat = GetTotalBeatUntil(note.Bar) + note.Beat * GetBeat(note.Bar);
+                note.Timing = CalculateTiming(note.ToBeat);
             }
             Notes.Sort();
 
@@ -373,6 +380,14 @@ namespace GameManager
                 bgm.Timing = CalculateTiming(bgm);
             }
             BGMs.Sort();
+
+            for (var i = 0; i < Bms.Data.TotalBar; i++)
+            {
+                var obj = new LObject() {Bar = i, Beat = 0, Timing = 0};
+
+                obj.Beat = GetTotalBeatUntil(obj.Bar);
+                Instantiate(_barLine, new Vector3(-3.5f, (float)obj.Beat, 0), Quaternion.Euler(0, 0, 0));
+            }
 
             yield return null;
         }
@@ -389,20 +404,36 @@ namespace GameManager
             return sum * 4f;
         }
 
-        private float CalculateTiming(LObject obj)
+        private double CalculateTiming(LObject obj)
         {
-            float timing = 0;
+            double timing = 0;
 
             var i = 0;
-            for (i = 1; i < BPMs.Length - 1 && BPMs[i - 1].Beat < obj.Beat; i++)
+            for (i = 0; i < BPMs.Length - 1 && obj.Beat > BPMs[i + 1].Beat; ++i)
             {
-                timing += (BPMs[i].Beat - BPMs[i - 1].Beat) / BPMs[i - 1].Bpm * 60;
+                timing += (BPMs[i + 1].Beat - BPMs[i].Beat) / BPMs[i].Bpm * 60;
             }
 
             timing += (obj.Beat - BPMs[i].Beat) / BPMs[i].Bpm * 60;
 
             return timing;
         }
+        
+        private double CalculateTiming(double beat)
+        {
+            double timing = 0;
+
+            var i = 0;
+            for (i = 0; i < BPMs.Length - 1 && beat > BPMs[i + 1].Beat; ++i)
+            {
+                timing += (BPMs[i + 1].Beat - BPMs[i].Beat) / BPMs[i].Bpm * 60;
+            }
+
+            timing += (beat - BPMs[i].Beat) / BPMs[i].Bpm * 60;
+
+            return timing;
+        }
+
 
         public float GetBeat(int bar) => Beats.ContainsKey(bar) ? Beats[bar] : 1;
         

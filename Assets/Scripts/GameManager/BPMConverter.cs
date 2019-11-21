@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
 using System.Linq;
+using Node;
+using UI.Animation;
 using UnityEngine;
 using Utility;
 
@@ -11,7 +13,6 @@ namespace GameManager
     public class BPMConverter : MonoBehaviour
     {
         private BMSCapacity _bms;
-        private SortedDictionary<int, Dictionary<Bms.DataSection.EventChannel, List<string>>> _command;
         private int _prevBar = -1;
 
         private void Start()
@@ -21,31 +22,36 @@ namespace GameManager
         
         private IEnumerator LoadBms()
         {
-            while (!BMSCapacity.Instance.IsDone)
-                yield return null;
+            yield return new WaitUntil(() => BMSCapacity.Instance.IsDone);
 
             _bms = BMSCapacity.Instance;
-            _command = _bms.Bms.Data.GetCommandSection();
             
             StartCoroutine(ConvertBGM());
         }
 
         private IEnumerator ConvertBGM()
         {
+            yield return new WaitUntil(() => NodeCreator.Instance._doneLoading);
             while (true)
             {
-                while (Mathf.Abs(_bms.BPMs.Top.Timing - Timer.PlayingTime) < 0.1f)
+                
+                if (_bms.BPMs.Length == 0)
+                    goto Stop;
+                
+                while (_bms.BPMs.Length != 0 && Judgement.Judge((float)_bms.BPMs.Top.Timing) == JudgementText.Judgement.Excelent)
                 {
-                    StartCoroutine(ConvertBGM(0, _bms.BPMs.Top.Bpm));
+                    StartCoroutine(ConvertBGM(0, (float)_bms.BPMs.Top.Bpm));
                     _bms.BPMs.Pop();
-                    Debug.Log("BPM");
+//                    Debug.Log("BPM");
                 }
 
-                while (Mathf.Abs(_bms.Stops.Top.Timing - Timer.PlayingTime) < 0.1f)
+                Stop:
+
+                while (_bms.Stops.Length != 0 && Judgement.Judge((float)_bms.Stops.Top.Timing) == JudgementText.Judgement.Excelent)
                 {
                     StartCoroutine(StopAction(0, _bms.Stops.Top.Time));
                     _bms.Stops.Pop();
-                    Debug.Log($"STOP{_bms.Stops.Top.Time / 192 / _bms.Bms.Head.Bpm * 240}");
+                    Debug.Log($"STOP");
                 }
                 
                 yield return null;
@@ -73,15 +79,16 @@ namespace GameManager
             CameraMove.Instance._isStop = true;
             Time.timeScale = 0;
             timeScale /= 192;
-            timeScale /= _bms.Bms.Head.Bpm;
+            timeScale /= (float)_bms.Bms.Head.Bpm;
             timeScale *= 240;
-
+            Debug.Log($"Before Stop {Timer.PlayingTime}");
             Timer.Instance._curBeatStopTime += timeScale;
-//            Debug.Log(timeScale);
+            Debug.Log(timeScale);
             yield return GCManager.Instance.Waitfor.ContainsKey(timeScale + "wfsr")
                 ? (WaitForSecondsRealtime) GCManager.Instance.Waitfor[timeScale + "wfsr"]
                 : (WaitForSecondsRealtime) GCManager.Instance.PushDataOnWaitfor(timeScale + "wfsr", new WaitForSecondsRealtime(timeScale));
 
+            Debug.Log($"After Stop {Timer.PlayingTime}");
             Time.timeScale = 1;
             CameraMove.Instance._isStop = false;
         }

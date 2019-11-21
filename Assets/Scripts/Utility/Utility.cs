@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using GameManager;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -170,6 +171,13 @@ namespace Utility
             return ret;
         }
 
+        public void Pop(T val)
+        {
+            if(Length <= 0) throw new System.Exception("SortQueue empty");
+
+            _list.Remove(val);
+        }
+
         public void Sort() => _list.Sort();
 
         public T this[int index] => _list[index];
@@ -190,16 +198,23 @@ namespace Utility
         }
     }
 
-    public class LObject : IComparable<LObject>
+    public class LObject : IComparable<LObject>, IEquatable<LObject>
     {
         public int Bar;
-        public float Beat;
-        public float Timing;
+        public double Beat;
+        public double Timing;
 
-        protected LObject(int bar, float beat, float beatLen)
+        public LObject()
+        {
+            Bar = 0;
+            Beat = 0;
+            Timing = 0;
+        }
+
+        protected LObject(int bar, double beat, double beatLen)
         {
             Bar = bar;
-            Beat = (beat / beatLen) * 4f;
+            Beat = beat / beatLen * 4f;
             Timing = 0;
         }
 
@@ -207,13 +222,18 @@ namespace Utility
         {
             return Beat.CompareTo(other.Beat);
         }
+
+        public bool Equals(LObject other)
+        {
+            return other != null && (Bar == other.Bar && Beat == other.Beat && Timing == other.Timing);
+        }
     }
     
     public class BPM : LObject
     {
-        public float Bpm;
+        public double Bpm;
 
-        public BPM(float bpm, int bar, float beat, float beatLen) : base(bar, beat, beatLen)
+        public BPM(double bpm, int bar, double beat, double beatLen) : base(bar, beat, beatLen)
         {
             Bpm = bpm;
         }
@@ -223,25 +243,32 @@ namespace Utility
     {
         public float Time;
 
-        public Stop(int stop, int bar, float beat, float beatLen) : base(bar, beat, beatLen)
+        public Stop(int stop, int bar, double beat, double beatLen) : base(bar, beat, beatLen)
         {
             Time = (float)stop / 192;
         }
     }
 
-    public class Note : LObject
+    public class Note : LObject, IEquatable<Note>
     {
         public string Sound;
         public bool IsLongNote;
         public int Index;
         public int ToBar;
-        public float ToBeat;
+        public double ToBeat;
+        public double ToTiming;
         
-        public Note(string key, bool isLongNote, int index, int bar, float beat, float beatLen) : base(bar, beat, beatLen)
+        public Note(string key, bool isLongNote, int index, int bar, double beat, double beatLen) : base(bar, beat, beatLen)
         {
             Sound = key;
             IsLongNote = isLongNote;
             Index = index;
+        }
+
+        public bool Equals(Note other)
+        {
+            return other != null && (Bar == other.Bar && Beat == other.Beat && Timing == other.Timing) &&
+                   Sound == other.Sound && Index == other.Index;
         }
     }
 }

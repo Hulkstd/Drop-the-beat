@@ -39,11 +39,11 @@ namespace Node
             {
                 var pos = _noteBasePos[note.Index].position;
 
-                pos.y = note.Beat;
+                pos.y = (float)note.Beat;
 
                 var n = Instantiate(_note, pos, Quaternion.Euler(0, 0, 0));
-                n._timing = note.Timing;
-                n._audio = _bms.Bms.Head.WavFiles[note.Sound];
+                n._timing = (float)note.Timing;
+                n._audio = _bms.Bms.GetAudioClip(note.Sound);
                 n._longNote = note.IsLongNote;
             }
             

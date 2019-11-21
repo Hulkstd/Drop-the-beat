@@ -203,7 +203,7 @@ namespace GameManager
             public string Title;
             public string Artist;
             public string Genre;
-            public float Bpm;
+            public double Bpm;
             public int PlayLevel;
             public int Rank;
             public int Total;
@@ -214,8 +214,8 @@ namespace GameManager
 
             public Dictionary<string, AudioClip> WavFiles { get; }
             public Dictionary<string, string> BmpFiles { get; }
-            public Dictionary<string, float> StopCommand { get; }
-            public Dictionary<string, float> BpmCommand { get; }
+            public Dictionary<string, double> StopCommand { get; }
+            public Dictionary<string, double> BpmCommand { get; }
 
             public Header()
             {
@@ -225,8 +225,8 @@ namespace GameManager
                 LongNote = new LongNoteInfo();
                 WavFiles = new Dictionary<string, AudioClip>();
                 BmpFiles = new Dictionary<string, string>();
-                StopCommand = new Dictionary<string, float>();
-                BpmCommand = new Dictionary<string, float>();
+                StopCommand = new Dictionary<string, double>();
+                BpmCommand = new Dictionary<string, double>();
             }
         }
         
@@ -393,7 +393,7 @@ namespace GameManager
     
         public void SetPlayer(int input) => Head.Player = input;
 
-        public void SetBpm(float input) => Head.Bpm = input;
+        public void SetBpm(double input) => Head.Bpm = input;
 
         public void SetRank(int input) => Head.Rank = input;
 
@@ -468,8 +468,10 @@ namespace GameManager
 
         public void AddStopCommand(string strNum, string strData) => Head.StopCommand.Add(strNum, int.Parse(strData));
 
-        public void AddBpmCommand(string strNum, string strData) => Head.BpmCommand.Add(strNum, float.Parse(strData));
+        public void AddBpmCommand(string strNum, string strData) => Head.BpmCommand.Add(strNum, double.Parse(strData));
 
+        public AudioClip GetAudioClip(string hex) => Head.WavFiles.ContainsKey(hex) ? Head.WavFiles[hex] : null;
+        
         private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
     }
 }

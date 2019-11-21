@@ -28,18 +28,21 @@ namespace GameManager
             if (!NodeCreator.Instance._doneLoading)
                 return;
 
-            while (Mathf.Abs(_bms.BGMs.Top.Timing - Timer.PlayingTime) < 0.1f)
+            if (_bms.BGMs.Length == 0)
+                return;
+            
+            //Mathf.Abs((float)_bms.BGMs.Top.Timing - Timer.PlayingTime) * 1000 < 21f
+            while (_bms.BGMs.Length != 0 && Judgement.Judge((float)_bms.BGMs.Top.Timing) == JudgementText.Judgement.Excelent)
             {
-                SoundManager.Instance.AddPlaySound(0, _bms.Bms.Head.WavFiles[_bms.BGMs.Top.Sound]);
+                SoundManager.Instance.AddPlaySound(0, _bms.Bms.GetAudioClip(_bms.BGMs.Top.Sound));
                 _bms.BGMs.Pop();
-                Debug.Log("BGM");
+//                Debug.Log($"BGM {(float)_bms.BGMs.Top.Timing - Timer.PlayingTime}");
             }
         }
 
         private IEnumerator LoadBms()
         {
-            while (!BMSCapacity.Instance.IsDone)
-                yield return null;
+            yield return new WaitUntil(() => BMSCapacity.Instance.IsDone);
 
             _bms = BMSCapacity.Instance;
         }
