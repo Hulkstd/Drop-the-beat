@@ -36,6 +36,7 @@
             <e p="Animation" t="Include">
               <e p="ComboText.cs" t="Include" />
               <e p="JudgementText.cs" t="Include" />
+              <e p="ScoreText.cs" t="Include" />
               <e p="TextChangedEvent.cs" t="Include" />
             </e>
           </e>

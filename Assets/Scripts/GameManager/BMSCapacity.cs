@@ -188,7 +188,7 @@ namespace GameManager
                                 {
                                     lastNote[index].IsLongNote = true;
                                     lastNote[index].ToBar = bar.Key;
-                                    lastNote[index].ToBeat = (i / count) * 1000;
+                                    lastNote[index].ToBeat = ((double)i / count) * 4.0;
                                     continue;
                                 }
                             }
@@ -243,7 +243,7 @@ namespace GameManager
                                 if (lastNote[index] == null)
                                 {
                                     var tmp = new Note(hex, true, index, bar.Key, i, count);
-
+                                    Notes.Push(tmp);
                                     lastNote[index] = tmp;
                                 }
                                 else
@@ -285,7 +285,7 @@ namespace GameManager
                                     if (lastNote[index] != null)
                                     {
                                         lastNote[index].ToBar = bar.Key;
-                                        lastNote[index].ToBeat = (i / count) * 1000;
+                                        lastNote[index].ToBeat = ((double)i / count) * 4.0;
                                     }
 
                                     continue;
@@ -296,14 +296,14 @@ namespace GameManager
                                     if (lastNote[index].Sound != hex)
                                     {
                                         lastNote[index].ToBar = bar.Key;
-                                        lastNote[index].ToBeat = (i / count) * 1000;
+                                        lastNote[index].ToBeat = ((double)i / count) * 4.0;
 
                                         continue;
                                     }
                                 }
 
                                 var tmp = new Note(hex, true, index, bar.Key, i, count);
-
+                                Notes.Push(tmp);
                                 lastNote[index] = tmp;
                             }
                         }
@@ -369,8 +369,9 @@ namespace GameManager
                 note.Timing = CalculateTiming(note);
 
                 if (!note.IsLongNote) continue;
-                note.ToBeat = GetTotalBeatUntil(note.Bar) + note.Beat * GetBeat(note.Bar);
-                note.Timing = CalculateTiming(note.ToBeat);
+                
+                note.ToBeat = GetTotalBeatUntil(note.ToBar) + note.ToBeat * GetBeat(note.ToBar);
+                note.ToTiming = CalculateTiming(note.ToBeat);
             }
             Notes.Sort();
 

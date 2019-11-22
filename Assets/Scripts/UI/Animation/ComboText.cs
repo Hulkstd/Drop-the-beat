@@ -7,7 +7,7 @@ namespace UI.Animation
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private string _animationName;
-        private int _animationNameCache = int.MinValue;
+        private static int _animationNameCache = int.MinValue;
         
         public void GainCombo(int Value)
         {

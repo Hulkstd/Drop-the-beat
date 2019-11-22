@@ -7,6 +7,7 @@ using TMPro;
 using UI.Animation;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.SocialPlatforms.Impl;
 using Utility;
 
 namespace GameManager
@@ -16,10 +17,8 @@ namespace GameManager
 //        public Dictionary<int, Utility.SortQueue<Node.NoteInfo>> Notes = (new int[] { 1, 2, 3, 4, 5, 6, 7 }).OfType<int>().
 //            ToDictionary<int,int , Utility.SortQueue<Node.NoteInfo>>(x => x, x => new Utility.SortQueue<Node.NoteInfo>(NoteInfo.Comparision));
 
-        public readonly Dictionary<int, KeyCode> InputKey = new Dictionary<int, KeyCode>();
+        private readonly Dictionary<int, KeyCode> _inputKey = new Dictionary<int, KeyCode>();
         [FormerlySerializedAs("isAuto")] public bool _isAuto = false;
-        [FormerlySerializedAs("ScoreText")] public TextMeshProUGUI _scoreText;
-        [FormerlySerializedAs("Score")] public long _score;
         private KeyStatus[] _keyStatuses;
         private KeyStatus[] _prevKeyStatuses;
         private BMSCapacity _bms;
@@ -28,6 +27,7 @@ namespace GameManager
         private IEnumerable<int> _keyPressDetect;
         private IEnumerable<int> _keyUpDetect;
         private IEnumerable<Note>[] _keysNotes = new IEnumerable<Note>[7];
+        private List<Note> _removeList;
 
         private enum KeyStatus
         {
@@ -39,17 +39,17 @@ namespace GameManager
         private void Start()
         {
             KeyboardManager.LoadAll();
-            _keyStatuses = new KeyStatus[InputKey.Count];
+            _keyStatuses = new KeyStatus[_inputKey.Count];
             _bms = BMSCapacity.Instance;
             for (var i = 1; i <= 7; i++)
             {
-                InputKey.Add(i, KeyboardManager.GetKeyCode(i));
+                _inputKey.Add(i, KeyboardManager.GetKeyCode(i));
                 Debug.Log(KeyboardManager.GetKeyCode(i));
             }
             
-            _keyDownDetect = InputKey.Where(x => Input.GetKeyDown(x.Value)).Select(x => x.Key);
-            _keyPressDetect = InputKey.Where(x => Input.GetKey(x.Value)).Select(x => x.Key);
-            _keyUpDetect = InputKey.Where(x => Input.GetKeyUp(x.Value)).Select(x => x.Key);
+            _keyDownDetect = _inputKey.Where(x => Input.GetKeyDown(x.Value)).Select(x => x.Key);
+            _keyPressDetect = _inputKey.Where(x => Input.GetKey(x.Value)).Select(x => x.Key);
+            _keyUpDetect = _inputKey.Where(x => Input.GetKeyUp(x.Value)).Select(x => x.Key);
             _keysNotes[0] = _bms.Notes.Where(x => x.Index == 0);
             _keysNotes[1] = _bms.Notes.Where(x => x.Index == 1);
             _keysNotes[2] = _bms.Notes.Where(x => x.Index == 2);
@@ -57,6 +57,7 @@ namespace GameManager
             _keysNotes[4] = _bms.Notes.Where(x => x.Index == 4);
             _keysNotes[5] = _bms.Notes.Where(x => x.Index == 5);
             _keysNotes[6] = _bms.Notes.Where(x => x.Index == 6);
+            _removeList = new List<Note>();
         }
         
         private void Update()
@@ -66,15 +67,43 @@ namespace GameManager
             
             if (_bms.Notes.Length == 0)
                 return;
-
-            while (_bms.Notes.Length != 0 && Judgement.Judge((float)_bms.Notes.Top.Timing) == JudgementText.Judgement.Excelent)
+            
+            foreach (var keyNotes in _keysNotes)
             {
-                ScoreUpdate(Judgement.Judge((float)_bms.Notes.Top.Timing));
-                SoundManager.Instance.AddPlaySound(0, _bms.Bms.GetAudioClip(_bms.Notes.Top.Sound));
+                foreach (var note in keyNotes.Where(x => Judgement.Judge((float)x.Timing, (float)x.ToTiming, x.IsLongNote) != JudgementText.Judgement.Ignore))
+                {
+                    if (note.IsLongNote && note.ToTiming < Timer.PlayingTime)
+                    {
+                        _removeList.Add(note);
+                    }
+                    else if (Judgement.Judge((float)note.Timing, (float)note.ToTiming, note.IsLongNote) == JudgementText.Judgement.Excellent)
+                    {
+                        ScoreUpdate(Judgement.Judge((float)note.Timing, (float)note.ToTiming, note.IsLongNote));
+                        SoundManager.Instance.AddPlaySound(0, _bms.Bms.GetAudioClip(_bms.Notes.Top.Sound));
+
+                        if (!note.IsLongNote)
+                            _removeList.Add(note);
+                        else
+                        {
+                            note.Sound = "";
+                        }
+                    }
+                    break;
+                }
+
+                foreach (var note in keyNotes.Where(x => Judgement.Judge((float)x.Timing, (float)x.ToTiming, x.IsLongNote) == JudgementText.Judgement.Poor))
+                {
+                    ScoreUpdate(JudgementText.Judgement.Poor);
+                    _removeList.Add(note);
+                }
                 
-//                Debug.Log($"Judge {Mathf.Abs(Timer.PlayingTime - (float)_bms.Notes.Top.Timing)}");     
-//                Debug.Break();
-                _bms.Notes.Pop();
+                if (_removeList.Count == 0) continue;
+
+                foreach (var note in _removeList)
+                {
+                    _bms.Notes.Pop(note);
+                }
+                _removeList.Clear();
             }
         }
 
@@ -96,15 +125,38 @@ namespace GameManager
 
             foreach (var keyNotes in _keysNotes)
             {
-                foreach (var note in keyNotes.Where(x => Judgement.Judge((float)x.Timing) != JudgementText.Judgement.Ignore))
+                foreach (var note in keyNotes.Where(x =>
+                    Judgement.Judge((float) x.Timing) != JudgementText.Judgement.Ignore))
                 {
-                    if (_keyStatuses[note.Index] == KeyStatus.Down)
+                    if (note.IsLongNote && note.Timing < Timer.PlayingTime && note.ToTiming > Timer.PlayingTime &&
+                        _keyStatuses[note.Index] == KeyStatus.Press && _prevKeyStatuses[note.Index] != KeyStatus.Up)
                     {
-                        ScoreUpdate(Judgement.Judge((float)note.Timing));
+                        ScoreUpdate(JudgementText.Judgement.Excellent);
+                    }
+                    else if (_keyStatuses[note.Index] == KeyStatus.Down)
+                    {
+                        ScoreUpdate(Judgement.Judge((float) note.Timing));
                         SoundManager.Instance.AddPlaySound(0, _bms.Bms.GetAudioClip(_bms.Notes.Top.Sound));
                     }
+
                     break;
                 }
+
+                foreach (var note in keyNotes.Where(x =>
+                    Judgement.Judge((float) x.Timing) == JudgementText.Judgement.Poor))
+                {
+                    _removeList.Add(note);
+                }
+
+                if (_removeList.Count == 0) continue;
+                
+                foreach (var note in _removeList)
+                {
+                    _bms.Notes.Pop(note);
+                }
+
+                _removeList.Clear();
+                
             }
         }
         
@@ -112,20 +164,23 @@ namespace GameManager
         {
             switch (judge)
             {
-                case JudgementText.Judgement.Excelent:
-                    _score += 5;
+                case JudgementText.Judgement.Excellent:
+                    ScoreText.Instance.GainScore(5);
                     break;
                 case JudgementText.Judgement.Great:
-                    _score += 3;
+                    ScoreText.Instance.GainScore(3);
                     break;
                 case JudgementText.Judgement.Good:
-                    _score += 1;
+                    ScoreText.Instance.GainScore(1);
                     break;
                 case JudgementText.Judgement.Bad:
-                    break;
+                    ComboText.Instance.ResetCombo();
+                    JudgementText.Instance.Judge(judge);
+                    return;
                 case JudgementText.Judgement.Poor:
-                    
-                    break;
+                    ComboText.Instance.ResetCombo();
+                    JudgementText.Instance.Judge(judge);
+                    return;
                 case JudgementText.Judgement.Ignore:
                     
                     break;
@@ -133,7 +188,6 @@ namespace GameManager
                     throw new ArgumentOutOfRangeException(nameof(judge), judge, null);
             }
 
-            _scoreText.text = _score.ToString("D9");
             JudgementText.Instance.Judge(judge);
             ComboText.Instance.GainCombo(1);
         }
@@ -141,12 +195,17 @@ namespace GameManager
 
     public static class Judgement
     {
-        public static UI.Animation.JudgementText.Judgement Judge(float timing)
+        public static UI.Animation.JudgementText.Judgement Judge(float timing, float toTiming = 0.0f, bool isLongNote = false)
         {
             var d = Math.Abs(timing - Timer.PlayingTime) * 1000;
 
+            if (isLongNote && timing < Timer.PlayingTime)
+            {
+                return JudgementText.Judgement.Excellent;
+            }
+
             if (d <= 21.0f)
-                return UI.Animation.JudgementText.Judgement.Excelent;
+                return UI.Animation.JudgementText.Judgement.Excellent;
             if (d <= 60.0f)
                 return UI.Animation.JudgementText.Judgement.Great;
             if (d <= 150.0f)

@@ -32,7 +32,7 @@ namespace GameManager
                 return;
             
             //Mathf.Abs((float)_bms.BGMs.Top.Timing - Timer.PlayingTime) * 1000 < 21f
-            while (_bms.BGMs.Length != 0 && Judgement.Judge((float)_bms.BGMs.Top.Timing) == JudgementText.Judgement.Excelent)
+            while (_bms.BGMs.Length != 0 && Judgement.Judge((float)_bms.BGMs.Top.Timing) == JudgementText.Judgement.Excellent)
             {
                 SoundManager.Instance.AddPlaySound(0, _bms.Bms.GetAudioClip(_bms.BGMs.Top.Sound));
                 _bms.BGMs.Pop();

@@ -809,7 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentBar: 0
   _currentBeatWeight: 1
-  _path: "C:\\Users\\HulkSTD\\Downloads\\bms\uBAA8\uC74C\\5.Aleph0\\_7ANOTHER.bms"
+  _path: "C:\\Users\\HulkSTD\\Downloads\\bms\uBAA8\uC74C\\5.Aleph0\\_7HYPER.bms"
   _barLine: {fileID: 5673856412813237053, guid: 5cd7664bd9bc2914babefecb8e585a46,
     type: 3}
 --- !u!4 &264964598
@@ -820,7 +820,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 264964596}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.791791, y: -3.2954957, z: -46.964844}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1199,6 +1199,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364553515}
   m_CullTransparentMesh: 0
+--- !u!1 &380560623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 380560624}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &380560624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380560623}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.632042, y: -3.302022, z: -11.740723}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &444387563
 GameObject:
   m_ObjectHideFlags: 0
@@ -2271,8 +2301,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isAuto: 1
-  _scoreText: {fileID: 1476219810}
-  _score: 0
 --- !u!4 &852475513
 Transform:
   m_ObjectHideFlags: 0
@@ -3174,6 +3202,7 @@ GameObject:
   - component: {fileID: 1476219809}
   - component: {fileID: 1476219811}
   - component: {fileID: 1476219810}
+  - component: {fileID: 1476219812}
   m_Layer: 5
   m_Name: Score
   m_TagString: Untagged
@@ -3321,6 +3350,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476219808}
   m_CullTransparentMesh: 0
+--- !u!114 &1476219812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476219808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b5c91131bf3104a8ec7e318fee7491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detectableTextClass: {fileID: 1476219810}
+  _onTextChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _score: 0
 --- !u!1 &1484015134
 GameObject:
   m_ObjectHideFlags: 0

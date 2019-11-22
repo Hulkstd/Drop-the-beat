@@ -196,7 +196,7 @@ namespace GameManager
                 public void AddLongNoteNum(string noteNum) => _longNotes.Add(noteNum);
 
                 public string GetNoteType() => _type;
-                public List<string> GetLongNoteList() => _longNotes;
+                public IEnumerable<string> GetLongNoteList() => _longNotes;
             }
         
             public int Player;

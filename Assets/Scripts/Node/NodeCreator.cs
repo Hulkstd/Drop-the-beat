@@ -45,6 +45,12 @@ namespace Node
                 n._timing = (float)note.Timing;
                 n._audio = _bms.Bms.GetAudioClip(note.Sound);
                 n._longNote = note.IsLongNote;
+
+                if (!n._longNote) continue;
+                
+                var scale = n.transform.localScale;
+                scale.y = (float)(note.ToTiming - note.Timing) * 0.2f;
+                n.transform.localScale = scale;
             }
             
             yield return null;

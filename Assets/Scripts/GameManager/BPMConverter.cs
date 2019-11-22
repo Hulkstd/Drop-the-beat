@@ -38,7 +38,7 @@ namespace GameManager
                 if (_bms.BPMs.Length == 0)
                     goto Stop;
                 
-                while (_bms.BPMs.Length != 0 && Judgement.Judge((float)_bms.BPMs.Top.Timing) == JudgementText.Judgement.Excelent)
+                while (_bms.BPMs.Length != 0 && Judgement.Judge((float)_bms.BPMs.Top.Timing) == JudgementText.Judgement.Excellent)
                 {
                     StartCoroutine(ConvertBGM(0, (float)_bms.BPMs.Top.Bpm));
                     _bms.BPMs.Pop();
@@ -47,7 +47,7 @@ namespace GameManager
 
                 Stop:
 
-                while (_bms.Stops.Length != 0 && Judgement.Judge((float)_bms.Stops.Top.Timing) == JudgementText.Judgement.Excelent)
+                while (_bms.Stops.Length != 0 && Judgement.Judge((float)_bms.Stops.Top.Timing) == JudgementText.Judgement.Excellent)
                 {
                     StartCoroutine(StopAction(0, _bms.Stops.Top.Time));
                     _bms.Stops.Pop();

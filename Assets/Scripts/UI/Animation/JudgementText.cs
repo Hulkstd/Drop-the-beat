@@ -8,7 +8,7 @@ namespace UI.Animation
         [Serializable]
         public enum Judgement
         {
-            Excelent = 0,
+            Excellent = 0,
             Great = 1,
             Good = 2,
             Bad = 3,
@@ -19,7 +19,7 @@ namespace UI.Animation
         [SerializeField] private Animator _animator;
         [SerializeField] private string _animationName;
         [SerializeField] private Color[] _colorPerJudgement;
-        private int _animationNameCache = int.MinValue;
+        private static int _animationNameCache = int.MinValue;
 
         public void Judge(Judgement judge)
         {
