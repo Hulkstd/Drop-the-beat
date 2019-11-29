@@ -8,12 +8,14 @@
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/BGMPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/BGMPlayer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/BPMConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/BPMConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/GCManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/GCManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/Parser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/Parser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/SoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/SoundManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameManager/Timer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameManager/Timer.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/ComboText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/ComboText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/JudgementText.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/JudgementText.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Examples &amp; Extras/Resources/Fonts &amp; Materials/Bangers SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/TextChangedEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Animation/TextChangedEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Utility/Utility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Utility/Utility.cs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,14 +39,12 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/6600E63F-F373-4C37-BB16-EA12F410FCD2/a3/24444ffb/MaskableGraphic.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/BPMConverter.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/06452B71-9576-486B-AAA3-34B141B6537A/a3/9215f92b/Comparison`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/KeyboardManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/90/91e3a309/Sprite.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/Animation/ScoreText.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/BGMPlayer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/4d/ee050c5c/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/599589BF-4CE2-4890-9B8A-14CBE4A2034E/47/79028d9d/String.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/Timer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -54,10 +54,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/599589BF-4CE2-4890-9B8A-14CBE4A2034E/dd/6f68f5b7/File.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/Parser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/9e/7c04a9cf/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/d3/7757abcc/RenderPipelineManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/e9/6cc10ebf/Behaviour.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/92/cf8a1ba8/Resources.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Editor/TMP_BaseEditorPanel.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/599589BF-4CE2-4890-9B8A-14CBE4A2034E/8c/93afb273/Char.cs" root0="SKIP_HIGHLIGHTING" />
@@ -70,31 +68,19 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/6a/a6d1d002/UnitySynchronizationContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/21081D16-F25A-40B9-8EAB-C0CFE5C861A9/c0/6a2ce68c/ButtonEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/CameraMove.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/C5DC6B49-17B2-4E94-AE43-1E2D91EEAD2C/6a/e47a7c0b/Canvas.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/9f/22da1ba0/SetupCoroutine.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/862B9365-843C-4BF1-BA93-210C124BB523/e4/3e18023a/SortedDictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3161F140-D471-46B2-BA3B-4979FC7D2B16/65/72d5b274/VideoClip.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/d4/0fce585a/Object.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0FB38736-02AD-4F16-A30D-E8CE8E1A6F6D/99/4ca8ca4b/EqualityComparer`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Runtime/TextMeshProUGUI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0FB38736-02AD-4F16-A30D-E8CE8E1A6F6D/f5/a6c2917c/Array.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/3161F140-D471-46B2-BA3B-4979FC7D2B16/fa/70379df9/VideoPlayer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0FB38736-02AD-4F16-A30D-E8CE8E1A6F6D/cf/17d1e60f/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameManager/BmpManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/7kScene.unity" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scenes/Test.unity" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/2CE23092-8A98-496B-A12C-A183760FB5F6/85/f09bd4b8/PlayerPrefs.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/Animation/JudgementText.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/Animation/ComboText.cs" root0="FORCE_HIGHLIGHTING" />
@@ -106,6 +92,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Utility/Utility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.textmeshpro@2.0.1/Scripts/Runtime/TMP_Text.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/29678BE2-3057-45E2-B09A-C155C8826818/dc/4be73e0d/AudioSource.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/599589BF-4CE2-4890-9B8A-14CBE4A2034E/04/832c2a47/Buffer.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -120,7 +107,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Parser.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/StaticClassCoroutineManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/TestCode.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/UI/Animation/TextChangedEvent.cs" />
         <option value="$PROJECT_DIR$/Assets/NoteInfo.cs" />
         <option value="$PROJECT_DIR$/Assets/BMSCapacity.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/Singleton.cs" />
@@ -128,20 +114,22 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Node/BGMPlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/KeyboardManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Node/NoteInfo.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/GCManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/SoundManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/Timer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Utility/Utility.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BPMConverter.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/CameraMove.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BGMPlayer.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/Parser.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/Animation/ComboText.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/Animation/JudgementText.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/UI/Animation/ScoreText.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BGMPlayer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/GCManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/SoundManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/Timer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BPMConverter.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/UI/Animation/TextChangedEvent.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/Parser.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Utility/Utility.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameManager/BmpManager.cs" />
       </list>
     </option>
   </component>
@@ -175,10 +163,10 @@
     </option>
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor &amp; Play">
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" pid="24160">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" pid="17456">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="24160" />
+      <option name="pid" value="17456" />
       <option name="userSelectedPid" value="false" />
       <method v="2" />
     </configuration>
@@ -208,7 +196,8 @@
       <workItem from="1572000495868" duration="45376000" />
       <workItem from="1572475322911" duration="15731000" />
       <workItem from="1573685171250" duration="28369000" />
-      <workItem from="1574206534600" duration="35220000" />
+      <workItem from="1574206534600" duration="59613000" />
+      <workItem from="1574986294907" duration="1939000" />
     </task>
     <task id="LOCAL-00001" summary="Code cataclysm">
       <created>1573690136981</created>
@@ -266,69 +255,30 @@
           <option name="timeStamp" value="1" />
         </breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs</url>
-          <line>58</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameManager/BMSCapacity.cs" initialLine="57">
-            <startOffsets>
-              <option value="2071" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2116" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs</url>
-          <line>32</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" initialLine="36">
-            <startOffsets>
-              <option value="1052" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1072" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs</url>
-          <line>55</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" initialLine="49">
-            <startOffsets>
-              <option value="1804" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1822" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="38" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs</url>
-          <line>50</line>
+          <line>48</line>
           <properties documentPath="$PROJECT_DIR$/Assets/Scripts/Node/NodeCreator.cs" initialLine="50">
             <startOffsets>
-              <option value="1610" />
+              <option value="1529" />
             </startOffsets>
             <endOffsets>
-              <option value="1645" />
+              <option value="1564" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs</url>
-          <line>70</line>
-          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameManager/JudgementManager.cs" initialLine="72">
+          <url>file://$PROJECT_DIR$/Assets/Scripts/GameManager/BmpManager.cs</url>
+          <line>35</line>
+          <properties documentPath="$PROJECT_DIR$/Assets/Scripts/GameManager/BmpManager.cs" initialLine="35">
             <startOffsets>
-              <option value="2769" />
+              <option value="972" />
             </startOffsets>
             <endOffsets>
-              <option value="2805" />
+              <option value="1010" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="50" />
+          <option name="timeStamp" value="54" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -337,5 +287,10 @@
         <RevealItemInfo typeName="System.Collections.Generic.KeyValuePair`2[[System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089],[System.Collections.Generic.Dictionary`2[[GameManager.Bms+DataSection+EventChannel, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null],[System.Collections.Generic.List`1[[System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]" fieldName="Key" />
       </revealed-members>
     </reveal-manager>
+    <watches-manager>
+      <configuration name="UNITY_DEBUG_RUN_CONFIGURATION">
+        <watch expression="UnityWebRequest.UnEscapeURL(UnityWebRequest.EscapeURL(fileName))" language="C#" custom="RiderImportsList:" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

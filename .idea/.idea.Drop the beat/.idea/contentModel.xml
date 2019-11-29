@@ -16,6 +16,7 @@
         <e p="Scripts" t="Include">
           <e p="GameManager" t="Include">
             <e p="BGMPlayer.cs" t="Include" />
+            <e p="BmpManager.cs" t="Include" />
             <e p="BMSCapacity.cs" t="Include" />
             <e p="BPMConverter.cs" t="Include" />
             <e p="CameraMove.cs" t="Include" />

@@ -11,8 +11,6 @@ namespace GameManager
         [FormerlySerializedAs("soundSourcePrefab")] public AudioSource _soundSourcePrefab;
         [FormerlySerializedAs("soundSourceParent")] public Transform _soundSourceParent;
         private ObjectPooling<AudioSource> _soundSources;
-        private GCManager _gcManager;
-
         private void Start()
         {
             _soundSources = new ObjectPooling<AudioSource>(_soundSourcePrefab, _soundSourceParent);
@@ -20,31 +18,23 @@ namespace GameManager
 
         public void AddPlaySound(float time, AudioClip audioClip)
         {
-            if (_gcManager == null) _gcManager = GCManager.Instance;
             StartCoroutine(PlaySound(time, audioClip));
         }
 
         private IEnumerator PlaySound(float time, AudioClip audioClip)
         {
-            yield return _gcManager.Waitfor.ContainsKey(time + "wfs")
-                ? (WaitForSeconds) _gcManager.Waitfor[time + "wfs"]
-                : (WaitForSeconds) _gcManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
+            yield return GCManager.Waitfor.ContainsKey(time + "wfs")
+                ? GCManager.Waitfor[time + "wfs"]
+                : GCManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
 
             var obj = _soundSources.PopObject();
             obj.PlayOneShot(audioClip);
+            
+            StartCoroutine(ReferenceEquals(audioClip, null)
+                ? Utility.Utility.SetActive(0.5f, obj.gameObject) 
+                : Utility.Utility.SetActive(audioClip.length + 0.5f, obj.gameObject));
 
-            try
-            {
-                StartCoroutine(audioClip == null
-                    ? Utility.Utility.SetActive(0.5f, obj.gameObject)
-                    : Utility.Utility.SetActive(audioClip.length + 0.5f, obj.gameObject));
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e.Message);
-                Debug.Log(obj.gameObject == null);
-                Debug.Log(audioClip.length);
-            }
+            yield return null;
         }
     }
 }

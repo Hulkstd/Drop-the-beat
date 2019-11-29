@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using GameManager;
 using Node;
 using UI.Animation;
 using UnityEngine;
-using Utility;
 
 namespace GameManager
 {
@@ -15,8 +11,6 @@ namespace GameManager
         [NonSerialized] public bool IsDone;
         private BMSCapacity _bms;
         private float _secondPerBar;
-        private int _prevBar = -1;
-        
         
         private void Start()
         {
@@ -46,13 +40,5 @@ namespace GameManager
 
             _bms = BMSCapacity.Instance;
         }
-
-        private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
-
-        private static SortQueue<KeyValuePair<float, float>> MakeBpmList(List<string> bpmC, List<string> bpmExC,
-            Dictionary<string, float> dic) => Utility.Utility.MakeBpmList(bpmC, bpmExC, dic);
-        
-        private static int Map(int val, int inMin, int inMax, int outMin, int outMax) =>
-            Utility.Utility.Map(val, inMin, inMax, outMin, outMax);
     }
 }

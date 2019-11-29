@@ -21,6 +21,7 @@ namespace GameManager
         [NonSerialized] public SortQueue<Stop> Stops;
         [NonSerialized] public SortQueue<Note> Notes;
         [NonSerialized] public SortQueue<Note> BGMs;
+        [NonSerialized] public SortQueue<Bmp> Bmps;
         [FormerlySerializedAs("currentBar")] public int _currentBar = 0;
         [FormerlySerializedAs("currentBeat")] public float _currentBeatWeight = 1;
         [FormerlySerializedAs("path")] public string _path;
@@ -34,6 +35,7 @@ namespace GameManager
             Stops = new SortQueue<Stop>();
             Notes = new SortQueue<Note>();
             BGMs = new SortQueue<Note>();
+            Bmps = new SortQueue<Bmp>();
 
             StartCoroutine(StartParsing());
         }
@@ -56,6 +58,7 @@ namespace GameManager
             yield return StartCoroutine(ProcessStop());
             yield return StartCoroutine(ProcessNote());
             yield return StartCoroutine(ProcessBGM());
+            yield return StartCoroutine(ProcessBmp());
             yield return StartCoroutine(ProcessTiming());
         }
 
@@ -340,6 +343,33 @@ namespace GameManager
             yield return null;
         }
 
+        private IEnumerator ProcessBmp()
+        {
+            var command = Bms.Data.GetCommandSection();
+            var bmpPath = Bms.Head.BmpFiles;
+
+            foreach (var bar in command)
+            {
+                foreach (var bgm in bar.Value.Where(y => y.Key == Bms.DataSection.EventChannel.BgaBase).SelectMany(pair => pair.Value))
+                {
+                    var count = bgm.Length / 2;
+
+                    for (var i = 0; i < count; i++)
+                    {
+                        var hex = GetHex(bgm, i * 2);
+                        
+                        if(hex == "00")
+                            continue;
+
+                        Bmps.Push(new Bmp(bmpPath[hex], bar.Key, i, count));
+                    }
+                }
+            }
+            
+            yield return null;
+        }
+
+        
         private IEnumerator ProcessTiming()
         {
             foreach (var bpm in BPMs)
@@ -381,6 +411,13 @@ namespace GameManager
                 bgm.Timing = CalculateTiming(bgm);
             }
             BGMs.Sort();
+            
+            foreach (var bmp in Bmps)
+            {
+                bmp.Beat = GetTotalBeatUntil(bmp.Bar) + bmp.Beat * GetBeat(bmp.Bar);
+                bmp.Timing = CalculateTiming(bmp);
+            }
+            Bmps.Sort();
 
             for (var i = 0; i < Bms.Data.TotalBar; i++)
             {

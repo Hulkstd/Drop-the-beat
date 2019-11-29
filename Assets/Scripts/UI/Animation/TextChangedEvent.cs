@@ -16,7 +16,7 @@ namespace UI.Animation
         private Text _text;
         private bool _isDetectResultIsMesh = false;
         
-        [FormerlySerializedAs("onTextChanged")]  [SerializeField]
+        [FormerlySerializedAs("onTextChanged")] [SerializeField]
         protected UnityEvent _onTextChanged;
 
         public UnityEvent OnTextChanged

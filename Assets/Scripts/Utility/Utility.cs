@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using GameManager;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.Video;
 using Object = UnityEngine.Object;
 
 namespace Utility
@@ -63,9 +65,9 @@ namespace Utility
     {
         public static IEnumerator SetActive(float time, GameObject obj)
         {
-            yield return GCManager.Instance.Waitfor.ContainsKey(time + "wfs")
-                ? (WaitForSeconds) GCManager.Instance.Waitfor[time + "wfs"]
-                : (WaitForSeconds) GCManager.Instance.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
+            yield return GCManager.Waitfor.ContainsKey(time + "wfs")
+                ? (WaitForSeconds) GCManager.Waitfor[time + "wfs"]
+                : (WaitForSeconds) GCManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
 
             obj.SetActive(false);
         }
@@ -126,47 +128,47 @@ namespace Utility
 
     public class SortQueue<T> : ICloneable, IEnumerable<T>
     {
-        public readonly List<T> _list;
+        public readonly List<T> List;
         private readonly System.Comparison<T> _comp;
 
         public SortQueue()
         {
-            _list = new List<T>();
+            List = new List<T>();
             _comp = null;
         }
 
         public SortQueue(System.Comparison<T> comparison)
         {
-            _list = new List<T>();
+            List = new List<T>();
             _comp = comparison;
         }
 
         private SortQueue(List<T> list, System.Comparison<T> comparison = null)
         {
-            _list = list.Count != 0 ? list.GetRange(0, list.Count) : new List<T>();
+            List = list.Count != 0 ? list.GetRange(0, list.Count) : new List<T>();
 
             _comp = comparison;
         }
 
-        public T Top => _list[0];
+        public T Top => List[0];
 
-        public int Length => _list.Count;
+        public int Length => List.Count;
 
         public void Push(T value)
         {
-            _list.Add(value);
+            List.Add(value);
 
             if (_comp == null)
-                _list.Sort();
+                List.Sort();
             else
-                _list.Sort(_comp);
+                List.Sort(_comp);
         }
 
         public T Pop()
         {
             if (Length <= 0) throw new System.Exception("SortQueue empty");
             var ret = Top;
-            _list.RemoveAt(0);
+            List.RemoveAt(0);
 
             return ret;
         }
@@ -175,21 +177,21 @@ namespace Utility
         {
             if(Length <= 0) throw new System.Exception("SortQueue empty");
 
-            _list.Remove(val);
+            List.Remove(val);
         }
 
-        public void Sort() => _list.Sort();
+        public void Sort() => List.Sort();
 
-        public T this[int index] => _list[index];
+        public T this[int index] => List[index];
 
         public object Clone()
         {
-            return new SortQueue<T>(_list, _comp);
+            return new SortQueue<T>(List, _comp);
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _list.GetEnumerator();
+            return List.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -271,4 +273,32 @@ namespace Utility
                    Sound == other.Sound && Index == other.Index;
         }
     }
+
+    public class Bmp : LObject
+    {
+        public string VideoClip;
+        public Sprite Sprite;
+
+        public Bmp(string path, int bar, double beat, double beatLen) : base(bar, beat, beatLen)
+        {
+            if (path.EndsWith(".mpg"))
+            {
+                VideoClip = path;
+            }
+            else
+            {
+                StaticClassCoroutineManager.Instance.Coroutine(ParseSprite(path, (x) => Sprite = x));
+            }
+        }
+
+        private static IEnumerator ParseSprite(string path, Action<Sprite> action)
+        {
+            var www = UnityWebRequestTexture.GetTexture(path);
+
+            yield return www.SendWebRequest();
+
+            action(Sprite.Create(DownloadHandlerTexture.GetContent(www), new Rect(), Vector2.one * 0.5f));
+        }
+    }
+    
 }

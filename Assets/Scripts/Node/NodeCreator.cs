@@ -16,7 +16,6 @@ namespace Node
         [FormerlySerializedAs("BeatLine")] public GameObject _beatLine;
         [FormerlySerializedAs("NoteSpeed")] public float _noteSpeed = 1;
         private static BMSCapacity _bms;
-        private static bool _bmsLoadingDone;
 
         private void Start()
         {
@@ -28,7 +27,6 @@ namespace Node
             yield return new WaitUntil(() => BMSCapacity.Instance.IsDone);
             
             _bms = BMSCapacity.Instance;
-            _bmsLoadingDone = true;
             yield return StartCoroutine(CreateNode());
             _doneLoading = true;
         }
@@ -52,51 +50,8 @@ namespace Node
                 scale.y = (float)(note.ToTiming - note.Timing) * 0.2f;
                 n.transform.localScale = scale;
             }
-            
+
             yield return null;
         }
-
-        private static int Map(int val, int inMin, int inMax, int outMin, int outMax) =>
-            Utility.Utility.Map(val, inMin, inMax, outMin, outMax);
-
-        private static Vector3 ToVec3(Vector2 pos)
-        {
-            return new Vector3(pos.x, pos.y);
-        }
-
-        private static int GetIndex(Bms.DataSection.EventChannel c)
-        {
-            switch (c)
-            {
-                case Bms.DataSection.EventChannel.P1SideLongNote1:
-                case Bms.DataSection.EventChannel.P1SideKey1:
-                    return 0;
-                case Bms.DataSection.EventChannel.P1SideLongNote2:
-                case Bms.DataSection.EventChannel.P1SideKey2:
-                    return 1;
-                case Bms.DataSection.EventChannel.P1SideLongNote3:
-                case Bms.DataSection.EventChannel.P1SideKey3:
-                    return 2;
-                case Bms.DataSection.EventChannel.P1SideLongNote4:
-                case Bms.DataSection.EventChannel.P1SideKey4:
-                    return 3;
-                case Bms.DataSection.EventChannel.P1SideLongNote5:
-                case Bms.DataSection.EventChannel.P1SideKey5:
-                    return 4;
-                case Bms.DataSection.EventChannel.P1SideLongNote6:
-                case Bms.DataSection.EventChannel.P1SideKey6:
-                    return 5;
-                case Bms.DataSection.EventChannel.P1SideLongNote7:
-                case Bms.DataSection.EventChannel.P1SideKey7:
-                    return 6;
-                default:
-                    return 0;
-            }
-        }
-
-        private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
-        
-        private static SortQueue<KeyValuePair<float, float>> MakeBpmList(List<string> bpmC, List<string> bpmExC,
-            Dictionary<string, float> dic) => Utility.Utility.MakeBpmList(bpmC, bpmExC, dic);
     }
 }

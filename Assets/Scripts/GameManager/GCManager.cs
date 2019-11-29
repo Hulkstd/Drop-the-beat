@@ -5,16 +5,11 @@ using UnityEngine;
 
 namespace GameManager
 {
-    public class GCManager : Singleton<GCManager>
+    public static class GCManager
     {
-        [NonSerialized] public Dictionary<string, object> Waitfor;
+        public static readonly Dictionary<string, object> Waitfor = new Dictionary<string, object>();
 
-        private void Start()
-        {
-            Waitfor = new Dictionary<string, object>();
-        }
-
-        public object PushDataOnWaitfor(string a, object data)
+        public static object PushDataOnWaitfor(string a, object data)
         {
             Waitfor.Add(a, data);
 

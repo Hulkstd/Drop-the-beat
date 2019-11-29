@@ -13,7 +13,6 @@ namespace GameManager
     public class BPMConverter : MonoBehaviour
     {
         private BMSCapacity _bms;
-        private int _prevBar = -1;
 
         private void Start()
         {
@@ -32,7 +31,7 @@ namespace GameManager
         private IEnumerator ConvertBGM()
         {
             yield return new WaitUntil(() => NodeCreator.Instance._doneLoading);
-            while (true)
+            while (!_bms.IsGameDone)
             {
                 
                 if (_bms.BPMs.Length == 0)
@@ -62,44 +61,30 @@ namespace GameManager
 
         private IEnumerator ConvertBGM(float time, float bpm)
         {
-            yield return GCManager.Instance.Waitfor.ContainsKey(time + "wfs")
-                ? (WaitForSeconds) GCManager.Instance.Waitfor[time + "wfs"]
-                : (WaitForSeconds) GCManager.Instance.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
+            yield return GCManager.Waitfor.ContainsKey(time + "wfs")
+                ? (WaitForSeconds) GCManager.Waitfor[time + "wfs"]
+                : (WaitForSeconds) GCManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
             
-         //   Debug.Log($"bpm to {bpm} in {Time.timeSinceLevelLoad}");
             _bms.Bms.SetBpm(bpm);
         }
 
         private IEnumerator StopAction(float time, float timeScale)
         {
-            yield return GCManager.Instance.Waitfor.ContainsKey(time + "wfs")
-                ? (WaitForSeconds) GCManager.Instance.Waitfor[time + "wfs"]
-                : (WaitForSeconds) GCManager.Instance.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
+            yield return GCManager.Waitfor.ContainsKey(time + "wfs")
+                ? (WaitForSeconds) GCManager.Waitfor[time + "wfs"]
+                : (WaitForSeconds) GCManager.PushDataOnWaitfor(time + "wfs", new WaitForSeconds(time));
 
             CameraMove.Instance._isStop = true;
             Time.timeScale = 0;
             timeScale /= 192;
             timeScale /= (float)_bms.Bms.Head.Bpm;
             timeScale *= 240;
-            Debug.Log($"Before Stop {Timer.PlayingTime}");
-            Timer.Instance._curBeatStopTime += timeScale;
-            Debug.Log(timeScale);
-            yield return GCManager.Instance.Waitfor.ContainsKey(timeScale + "wfsr")
-                ? (WaitForSecondsRealtime) GCManager.Instance.Waitfor[timeScale + "wfsr"]
-                : (WaitForSecondsRealtime) GCManager.Instance.PushDataOnWaitfor(timeScale + "wfsr", new WaitForSecondsRealtime(timeScale));
+            yield return GCManager.Waitfor.ContainsKey(timeScale + "wfsr")
+                ? (WaitForSecondsRealtime) GCManager.Waitfor[timeScale + "wfsr"]
+                : (WaitForSecondsRealtime) GCManager.PushDataOnWaitfor(timeScale + "wfsr", new WaitForSecondsRealtime(timeScale));
 
-            Debug.Log($"After Stop {Timer.PlayingTime}");
             Time.timeScale = 1;
             CameraMove.Instance._isStop = false;
         }
-
-        private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
-
-        private static int Map(int val, int inMin, int inMax, int outMin, int outMax) =>
-            Utility.Utility.Map(val, inMin, inMax, outMin, outMax);
-        
-        private static SortQueue<KeyValuePair<float, float>> MakeBpmList(List<string> bpmC, List<string> bpmExC,
-            Dictionary<string, float> dic) => Utility.Utility.MakeBpmList(bpmC, bpmExC, dic);
-        
     }
 }

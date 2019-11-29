@@ -98,9 +98,9 @@ namespace GameManager
                     {
                         var strNum = line.Substring(4, 2);
 
-                        var length = line.Length - 6;
-                        var fileName = line.Substring(6, length);
-                        bms.AddBmpFile($"{fileParent}/{fileName}", strNum);
+                        var length = line.Length - 7;
+                        var fileName = line.Substring(7, length);
+                        bms.AddBmpFile($@"{fileParent}\",$"{fileName}", strNum);
                     }
                     else if (SubString(line, "#STOP"))
                     {
@@ -444,7 +444,7 @@ namespace GameManager
                 type = AudioType.OGGVORBIS;
             }
 
-            using (var www = UnityWebRequestMultimedia.GetAudioClip("file://"+path + UnityWebRequest.EscapeURL(fileName), type))
+            using (var www = UnityWebRequestMultimedia.GetAudioClip("file:///"+path + UnityWebRequest.EscapeURL(fileName), type))
             {
                 yield return www.SendWebRequest();
                 
@@ -464,14 +464,16 @@ namespace GameManager
             }
         }
 
-        public void AddBmpFile(string input, string strNum) => Head.BmpFiles.Add(strNum, input);
+        public void AddBmpFile(string path, string fileName, string strNum)
+        {
+            path = path.Replace(@"\", "/");
+            Head.BmpFiles.Add(strNum, $"file:///{path}{UnityWebRequest.EscapeURL(fileName)}");
+        }
 
         public void AddStopCommand(string strNum, string strData) => Head.StopCommand.Add(strNum, int.Parse(strData));
 
         public void AddBpmCommand(string strNum, string strData) => Head.BpmCommand.Add(strNum, double.Parse(strData));
 
         public AudioClip GetAudioClip(string hex) => Head.WavFiles.ContainsKey(hex) ? Head.WavFiles[hex] : null;
-        
-        private static string GetHex(string str, int i) => Utility.Utility.GetHex(str, i);
     }
 }
