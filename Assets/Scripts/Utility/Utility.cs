@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection.Emit;
+using GameManager;
 using GameManager;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -83,12 +86,21 @@ namespace Utility
             return a * b / c + outMin;
         }
 
+        public static float Map(float val, float inMin, float inMax, float outMin, float outMax)
+        {
+            var a = val - inMin;
+            var b = outMax - outMin;
+            var c = inMax - inMin == 0 ? 1 : inMax - inMin;
+
+            return a * b / c + outMin;
+        }
+
         public static SortQueue<KeyValuePair<float, float>> MakeBpmList(List<string> bpmCs, List<string> bpmExCs,
             Dictionary<string, float> bpmDictionary)
         {
             var list = new SortQueue<KeyValuePair<float, float>>((a, b) => a.Value.CompareTo(b.Value));
-            
-            if(bpmCs != null)
+
+            if (bpmCs != null)
             {
                 foreach (var bpmC in bpmCs)
                 {
@@ -96,16 +108,17 @@ namespace Utility
                     for (var i = 0; i < bpmCCount; i++)
                     {
                         var hex = GetHex(bpmC, i * 2);
-                    
-                        if(hex == "00")
+
+                        if (hex == "00")
                             continue;
-                    
-                        list.Push(new KeyValuePair<float, float>(Convert.ToInt32(hex, 16), (float)i / bpmCCount * 1000));
+
+                        list.Push(
+                            new KeyValuePair<float, float>(Convert.ToInt32(hex, 16), (float) i / bpmCCount * 1000));
                     }
                 }
             }
 
-            if(bpmExCs != null)
+            if (bpmExCs != null)
             {
                 foreach (var bpmExC in bpmExCs)
                 {
@@ -113,17 +126,32 @@ namespace Utility
                     for (var i = 0; i < bpmExCCount; i++)
                     {
                         var hex = GetHex(bpmExC, i * 2);
-                    
-                        if(hex == "00")
+
+                        if (hex == "00")
                             continue;
-                    
-                        list.Push(new KeyValuePair<float, float>(bpmDictionary[hex] , (float)i / bpmExCCount * 1000));
-                    } 
+
+                        list.Push(new KeyValuePair<float, float>(bpmDictionary[hex], (float) i / bpmExCCount * 1000));
+                    }
                 }
             }
-            
+
             return list.Length == 0 ? null : list;
         }
+
+        public static object GetValue<T>(int index, List<T> list)
+        {
+            if (index < 0)
+                index = list.Count + index;
+
+            if (index < 0)
+                return null;
+            if (list.Count <= index)
+                return null;
+            
+            return list[index];
+
+        }
+
     }
 
     public class SortQueue<T> : ICloneable, IEnumerable<T>
@@ -287,7 +315,7 @@ namespace Utility
             }
             else
             {
-                StaticClassCoroutineManager.Instance.Coroutine(ParseSprite(path, (x) => Sprite = x));
+                BMSCapacity.Instance.StartCoroutine(ParseSprite(path, (x) => Sprite = x));
             }
         }
 
@@ -300,5 +328,4 @@ namespace Utility
             action(Sprite.Create(DownloadHandlerTexture.GetContent(www), new Rect(), Vector2.one * 0.5f));
         }
     }
-    
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using GameManager;
+using Node;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -33,7 +35,7 @@ namespace UI.Animation
 
         private IEnumerator GainScore()
         {
-            while (true)
+            while (!BMSCapacity.Instance.IsGameDone || _accumulatorGainScore != 0)
             {
                 if (_accumulatorGainScore == 0)
                 {
@@ -41,12 +43,13 @@ namespace UI.Animation
                     continue;
                 }
 
-                var val = (long)Random.Range(1, Mathf.Clamp(_accumulatorGainScore, 1, 3));
+                var val = (long)Random.Range(1, _accumulatorGainScore);
 
                 _accumulatorGainScore -= val;
                 Score += val;
                 yield return null;
             }
+            yield return null;
         }
     }
 }

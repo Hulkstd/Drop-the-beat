@@ -13,35 +13,125 @@
           </e>
           <e p="ForceCameraRatio.cs" t="Include" />
         </e>
+        <e p="LibplanetUnity" t="Include">
+          <e p="Action" t="Include">
+            <e p="AccountStateDeltaExtensions.cs" t="Include" />
+            <e p="ActionBase.cs" t="Include" />
+          </e>
+          <e p="Agent.cs" t="Include" />
+          <e p="Editor" t="Include">
+            <e p="Builder.cs" t="Include" />
+            <e p="LibplanetEditor.cs" t="Include" />
+          </e>
+          <e p="Helper" t="Include">
+            <e p="Options.cs" t="Include" />
+          </e>
+          <e p="MonoSingleton.cs" t="Include" />
+          <e p="Packages" t="Include">
+            <e p="Bencodex.xml" t="Include" />
+            <e p="CommandLine.xml" t="Include" />
+            <e p="Equals.xml" t="Include" />
+            <e p="Libplanet.xml" t="Include" />
+            <e p="Microsoft.ApplicationInsights.xml" t="Include" />
+            <e p="Microsoft.Bcl.AsyncInterfaces.xml" t="Include" />
+            <e p="NetMQ.xml" t="Include" />
+            <e p="Serilog.Sinks.ApplicationInsights.xml" t="Include" />
+            <e p="Serilog.xml" t="Include" />
+            <e p="System.Buffers.xml" t="Include" />
+            <e p="System.Collections.Immutable.xml" t="Include" />
+            <e p="System.Memory.xml" t="Include" />
+            <e p="System.Runtime.CompilerServices.Unsafe.xml" t="Include" />
+            <e p="System.Text.Encodings.Web.xml" t="Include" />
+            <e p="System.Text.Json.xml" t="Include" />
+            <e p="System.Threading.Tasks.Extensions.xml" t="Include" />
+            <e p="Zio.xml" t="Include" />
+          </e>
+        </e>
+        <e p="Resources" t="Include">
+          <e p="Material" t="Include">
+            <e p="OutLine.shader" t="Include" />
+            <e p="UIUnlitFrostedGlass.shader" t="Include" />
+          </e>
+        </e>
         <e p="Scripts" t="Include">
+          <e p="Action" t="Include">
+            <e p="ModifyRank.cs" t="Include" />
+            <e p="Rename.cs" t="Include" />
+          </e>
           <e p="GameManager" t="Include">
-            <e p="BGMPlayer.cs" t="Include" />
-            <e p="BmpManager.cs" t="Include" />
-            <e p="BMSCapacity.cs" t="Include" />
-            <e p="BPMConverter.cs" t="Include" />
-            <e p="CameraMove.cs" t="Include" />
-            <e p="GCManager.cs" t="Include" />
-            <e p="JudgementManager.cs" t="Include" />
-            <e p="KeyboardManager.cs" t="Include" />
-            <e p="Parser.cs" t="Include" />
+            <e p="GameManager" t="Include">
+              <e p="BGMPlayer.cs" t="Include" />
+              <e p="BmpManager.cs" t="Include" />
+              <e p="BMSCapacity.cs" t="Include" />
+              <e p="BPMConverter.cs" t="Include" />
+              <e p="CameraMove.cs" t="Include" />
+              <e p="GCManager.cs" t="Include" />
+              <e p="JudgementManager.cs" t="Include" />
+              <e p="Parser.cs" t="Include" />
+              <e p="RankingManager.cs" t="Include" />
+              <e p="SoundManager.cs" t="Include" />
+              <e p="Timer.cs" t="Include" />
+            </e>
+            <e p="MusicManager.cs" t="Include" />
+            <e p="SaveData" t="Include">
+              <e p="KeyboardManager.cs" t="Include" />
+              <e p="VolumeManager.cs" t="Include" />
+            </e>
+            <e p="SceneChanger.cs" t="Include" />
             <e p="Singleton.cs" t="Include" />
-            <e p="SoundManager.cs" t="Include" />
-            <e p="StaticClassCoroutineManager.cs" t="Include" />
-            <e p="Timer.cs" t="Include" />
+          </e>
+          <e p="MainScene" t="Include">
+            <e p="AudioPeer.cs" t="Include" />
+            <e p="AudioVisualize.cs" t="Include" />
           </e>
           <e p="Node" t="Include">
             <e p="NodeCreator.cs" t="Include" />
             <e p="NoteInfo.cs" t="Include" />
           </e>
+          <e p="State" t="Include">
+            <e p="AgentState.cs" t="Include" />
+            <e p="IState.cs" t="Include" />
+            <e p="RankingState.cs" t="Include" />
+            <e p="State.cs" t="Include" />
+          </e>
           <e p="UI" t="Include">
             <e p="Animation" t="Include">
+              <e p="CollectPercentText.cs" t="Include" />
               <e p="ComboText.cs" t="Include" />
               <e p="JudgementText.cs" t="Include" />
               <e p="ScoreText.cs" t="Include" />
               <e p="TextChangedEvent.cs" t="Include" />
             </e>
+            <e p="CustomToggle" t="Include">
+              <e p="CustomToggle.cs" t="Include" />
+            </e>
+            <e p="ItemCreator.cs" t="Include" />
+            <e p="ListBox" t="Include">
+              <e p="ListBox.cs" t="Include" />
+              <e p="MusicList.cs" t="Include" />
+            </e>
+            <e p="MainSceneUI.cs" t="Include" />
+            <e p="MusicInfoUI.cs" t="Include" />
+            <e p="NameInputField.cs" t="Include" />
+            <e p="Option" t="Include">
+              <e p="Content.cs" t="Include" />
+              <e p="Key5Content.cs" t="Include" />
+              <e p="Key7Content.cs" t="Include" />
+              <e p="OptionSubject.cs" t="Include" />
+              <e p="Subject.cs" t="Include" />
+              <e p="VolumeContent.cs" t="Include" />
+            </e>
+            <e p="RankContent.cs" t="Include" />
+            <e p="Slider" t="Include">
+              <e p="ExitSlider.cs" t="Include" />
+              <e p="OptionSlider.cs" t="Include" />
+              <e p="SlideEvent.cs" t="Include" />
+              <e p="StartSlider.cs" t="Include" />
+            </e>
           </e>
           <e p="Utility" t="Include">
+            <e p="BencodexExtension.cs" t="Include" />
+            <e p="BmpManager.cs" t="Include" />
             <e p="Utility.cs" t="Include" />
           </e>
         </e>

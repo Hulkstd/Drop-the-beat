@@ -289,7 +289,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &53661094
 MonoBehaviour:
@@ -315,7 +315,7 @@ MonoBehaviour:
   - {fileID: 468286950}
   _beatLine: {fileID: 5673856412813237053, guid: 5cd7664bd9bc2914babefecb8e585a46,
     type: 3}
-  _noteSpeed: 1
+  _noteSpeed: 3
 --- !u!4 &53661095
 Transform:
   m_ObjectHideFlags: 0
@@ -793,7 +793,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &264964597
 MonoBehaviour:
@@ -1214,7 +1214,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &380560624
 Transform:
@@ -1544,7 +1544,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538321468}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: ca35418e39160b54299b6b9c4fe3b7a8, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1565,10 +1565,10 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
-  m_SkipOnDrop: 1
-  m_Looping: 1
-  m_WaitForFirstFrame: 1
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 0
+  m_Looping: 0
+  m_WaitForFirstFrame: 0
   m_FrameReadyEventEnabled: 0
 --- !u!212 &538321470
 SpriteRenderer:
@@ -2286,7 +2286,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &852475512
 MonoBehaviour:
@@ -2301,6 +2301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isAuto: 0
+  _autoJudgement: 0
 --- !u!4 &852475513
 Transform:
   m_ObjectHideFlags: 0
@@ -3030,7 +3031,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1219002720
 MonoBehaviour:
@@ -3088,7 +3089,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1272362231
 MonoBehaviour:
@@ -3678,6 +3679,7 @@ GameObject:
   - component: {fileID: 1684433815}
   - component: {fileID: 1684433817}
   - component: {fileID: 1684433816}
+  - component: {fileID: 1684433818}
   m_Layer: 5
   m_Name: P
   m_TagString: Untagged
@@ -3824,6 +3826,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1684433814}
   m_CullTransparentMesh: 0
+--- !u!114 &1684433818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1684433814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2438a419dbb390f4bb15388572848238, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detectableTextClass: {fileID: 1684433816}
+  _onTextChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  _collect: 0
+  _totalC: 0
 --- !u!1 &1820059780
 GameObject:
   m_ObjectHideFlags: 0
@@ -3954,7 +3976,6 @@ GameObject:
   - component: {fileID: 2008683309}
   - component: {fileID: 2008683308}
   - component: {fileID: 2008683307}
-  - component: {fileID: 2008683310}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -4010,18 +4031,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2008683310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2008683306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c21eda67fa09c694e8dbfe01f412a462, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2117112491
 GameObject:
   m_ObjectHideFlags: 0

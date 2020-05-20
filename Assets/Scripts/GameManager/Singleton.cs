@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace GameManager
 {
@@ -10,7 +11,7 @@ namespace GameManager
             {
                 if (_instance == null)
                 {
-                    var Object = GameObject.FindObjectsOfType(typeof(T));
+                    var Object = FindObjectsOfType(typeof(T));
 
                     if (Object.Length > 1)
                     {
@@ -27,5 +28,21 @@ namespace GameManager
             }
         }
         private static T _instance;
+
+        protected virtual bool Awake()
+        {
+            if (_instance != null)
+            {
+                Destroy(gameObject);
+                return false;
+            }
+            
+            return true;
+        }
+
+        protected void OnDisable()
+        {
+            _instance = null;
+        }
     }
 }

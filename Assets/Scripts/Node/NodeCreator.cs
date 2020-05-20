@@ -37,7 +37,7 @@ namespace Node
             {
                 var pos = _noteBasePos[note.Index].position;
 
-                pos.y = (float)note.Beat;
+                pos.y = (float)note.Beat * _noteSpeed;
 
                 var n = Instantiate(_note, pos, Quaternion.Euler(0, 0, 0));
                 n._timing = (float)note.Timing;
@@ -47,7 +47,8 @@ namespace Node
                 if (!n._longNote) continue;
                 
                 var scale = n.transform.localScale;
-                scale.y = (float)(note.ToTiming - note.Timing) * 0.2f;
+                Debug.Log($"{_bms.GetBeat(note.Bar)}, {note.ToTiming - note.Timing}");
+                scale.y = (float) (note.ToTiming - note.Timing);
                 n.transform.localScale = scale;
             }
 
